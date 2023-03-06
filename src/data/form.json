@@ -1,0 +1,11 @@
+{
+  "message": "Succesfull get form data",
+  "data": [
+    {
+      "id": 1,
+      "name": "email",
+      "type": "text",
+      "label": "Email"
+    }
+  ]
+}

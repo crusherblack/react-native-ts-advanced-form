@@ -32,7 +32,7 @@ const TextInput = <
 
   const {
     field: {value, onBlur, onChange},
-    fieldState: {error, invalid, isTouched},
+    fieldState: {error, invalid},
   } = useController({
     name,
     control,
@@ -48,15 +48,18 @@ const TextInput = <
         onChangeText={onChange}
         onBlur={onBlur}
         mode={mode}
-        {...rest}
         right={
           isPassword && (
             <PaperTextInput.Icon icon="eye" onPress={toggleSecurePassword} />
           )
         }
         secureTextEntry={isSecureTextEntry}
+        error={invalid}
+        placeholder="Input Password"
+        placeholderTextColor="lightgray"
+        {...rest}
       />
-      <HelperText type="error" visible={invalid && isTouched}>
+      <HelperText type="error" visible={invalid}>
         {error?.message}
       </HelperText>
     </View>

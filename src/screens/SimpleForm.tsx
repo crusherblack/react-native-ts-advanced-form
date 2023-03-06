@@ -1,36 +1,22 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
-import {Button, Card} from 'react-native-paper';
+import {Button, Card, Text} from 'react-native-paper';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import TextInput from 'src/components/form/TextInput';
-import Switch from 'src/components/form/Switch';
+import FormBuilder, {TFormStructure} from 'src/components/form/FormBuilder';
 
-type TForm = {
+export type TForm = {
   email: string;
   password: string;
   rememberMe: boolean;
-  date?: Date;
+  dob: Date | null;
 };
 
-type TFormLoginStructur<T> = {
-  id: number;
-  name: T;
-  type: 'text' | 'toggle' | 'date';
-  label: string;
-  variant?: string;
-};
+export type TSimpleFormStructure = TFormStructure[];
 
-const schema = yup
-  .object({
-    email: yup.string().email().required(),
-    password: yup.string().min(8).required(),
-  })
-  .required();
-
-const formStructure: TFormLoginStructur<keyof TForm>[] = [
+const formStructure: TSimpleFormStructure = [
   {
     id: 1,
     name: 'email',
@@ -46,19 +32,39 @@ const formStructure: TFormLoginStructur<keyof TForm>[] = [
   },
   {
     id: 3,
+    name: 'dob',
+    label: 'Date of Birth',
+    type: 'date',
+  },
+  {
+    id: 4,
     name: 'rememberMe',
     label: 'Remember Me',
     type: 'toggle',
   },
 ];
 
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().min(8).required(),
+    dob: yup.mixed().required(),
+  })
+  .required();
+
 const SimpleFormScreen: React.FC = () => {
-  const {control, handleSubmit} = useForm<TForm>({
+  const {
+    control,
+    handleSubmit,
+    formState: {isDirty, isValid},
+  } = useForm<TForm>({
     resolver: yupResolver(schema),
+    mode: 'all',
     defaultValues: {
       email: '',
       password: '',
       rememberMe: false,
+      dob: null,
     },
   });
 
@@ -67,23 +73,12 @@ const SimpleFormScreen: React.FC = () => {
   return (
     <ScrollView style={{flex: 1}}>
       <Card style={{paddingHorizontal: 10, paddingVertical: 10}}>
-        {formStructure.map(({type, name, label, variant, id}) => {
-          const isToggle = type === 'toggle';
+        <FormBuilder<TForm> control={control} structures={formStructure} />
 
-          return isToggle ? (
-            <Switch control={control} name="rememberMe" key={id} />
-          ) : (
-            <TextInput
-              control={control}
-              name={name}
-              label={label}
-              key={id}
-              isPassword={variant === 'password'}
-            />
-          );
-        })}
-
-        <Button onPress={handleSubmit(onSubmit)} mode="contained">
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          mode="contained"
+          disabled={!(isValid && isDirty)}>
           Login
         </Button>
       </Card>
