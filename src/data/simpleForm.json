@@ -1,0 +1,56 @@
+{
+  "message": "Succesfull get simpleForm data",
+  "data": [
+    {
+      "name": "email",
+      "type": "text",
+      "label": "Email",
+      "placeholder": "Input Email",
+      "children": [
+        {
+          "name": "children1",
+          "label": "Children1",
+          "type": "text",
+          "placeholder": "Input Children 1"
+        },
+        {
+          "name": "children2",
+          "label": "Children2",
+          "type": "text",
+          "placeholder": "Input Children 2"
+        }
+      ]
+    },
+    {
+      "name": "password",
+      "label": "Password",
+      "type": "text",
+      "variant": "password",
+      "placeholder": "Input Password"
+    },
+    {
+      "name": "dob",
+      "label": "Date of Birth",
+      "type": "date",
+      "children": [
+        {
+          "name": "children3",
+          "label": "Children3",
+          "type": "text",
+          "placeholder": "Input Children 3"
+        },
+        {
+          "name": "children4",
+          "label": "Children4",
+          "type": "text",
+          "placeholder": "Input Children 4"
+        }
+      ]
+    },
+    {
+      "name": "rememberMe",
+      "label": "Remember Me",
+      "type": "toggle"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import React, {PropsWithChildren} from 'react';
-import {Surface} from 'react-native-paper';
 import {StyleSheet, ViewStyle} from 'react-native';
+
+import {Surface} from 'react-native-paper';
 
 type TProps = PropsWithChildren<{
   title: string;

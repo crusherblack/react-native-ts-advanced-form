@@ -12,6 +12,7 @@
     "strict": true,
     "target": "esnext",
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@src/*": [
         "src/*"

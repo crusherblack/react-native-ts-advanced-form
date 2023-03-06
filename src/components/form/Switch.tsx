@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+
 import {Switch as PaperSwitch, SwitchProps} from 'react-native-paper';
 import {
   useController,
@@ -8,8 +9,10 @@ import {
   FieldValues,
 } from 'react-hook-form';
 
+import Text from 'src/components/Text';
+
 type TProps = {
-  isPassword?: boolean;
+  label: string;
 };
 
 const Switch = <
@@ -18,7 +21,7 @@ const Switch = <
 >({
   name,
   control,
-  isPassword,
+  label,
   ...rest
 }: UseControllerProps<TFieldValues, TName> & TProps & SwitchProps) => {
   const {
@@ -35,9 +38,16 @@ const Switch = <
         marginBottom: 10,
         alignItems: 'flex-start',
       }}>
+      <Text
+        style={{
+          marginBottom: 5,
+        }}>
+        {label}
+      </Text>
       <PaperSwitch
         onChange={e => onChange(e.nativeEvent.value)}
         value={value}
+        style={{transform: [{scaleX: 1.2}, {scaleY: 1.2}]}}
         {...rest}
       />
     </View>

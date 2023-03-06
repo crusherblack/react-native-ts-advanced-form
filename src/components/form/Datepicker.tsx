@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+
 import {
   useController,
   UseControllerProps,
   FieldPath,
   FieldValues,
 } from 'react-hook-form';
-import {TouchableOpacity, View} from 'react-native';
 import {
   HelperText,
   TextInput as PaperTextInput,
@@ -13,6 +14,8 @@ import {
 } from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import {format} from 'date-fns';
+
+import Text from 'src/components/Text';
 
 type TProps = {
   label: string;
@@ -52,9 +55,9 @@ const Datepicker = <
 
   return (
     <View>
+      <Text>{label}</Text>
       <TouchableOpacity onPress={setModalOpen}>
         <PaperTextInput
-          label={label}
           value={isDateChoose ? format(value, 'dd/MM/yyyy') : 'DD/MM/YYYY'}
           mode={mode}
           right={<PaperTextInput.Icon icon="calendar-range" />}
@@ -63,9 +66,13 @@ const Datepicker = <
           {...rest}
         />
       </TouchableOpacity>
-      <HelperText type="error" visible={invalid}>
-        {error?.message}
-      </HelperText>
+      {invalid ? (
+        <HelperText type="error" visible={invalid}>
+          {error?.message}
+        </HelperText>
+      ) : (
+        <View style={{marginBottom: 10}} />
+      )}
       <DatePicker
         modal
         open={open}

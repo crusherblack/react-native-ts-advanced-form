@@ -12,9 +12,12 @@ import {
   TextInputProps,
 } from 'react-native-paper';
 
+import Text from 'src/components/Text';
+
 type TProps = {
   label: string;
-  isPassword?: boolean;
+  placeholder?: string;
+  variant?: 'password' | 'number' | 'text';
 };
 
 const TextInput = <
@@ -25,9 +28,12 @@ const TextInput = <
   control,
   label,
   mode = 'outlined',
-  isPassword,
+  variant = 'text',
+  placeholder,
   ...rest
 }: UseControllerProps<TFieldValues, TName> & TProps & TextInputProps) => {
+  const isPassword = variant === 'password';
+  const isNumber = variant === 'number';
   const [isSecureTextEntry, setIsSecureTextEntry] = useState(isPassword);
 
   const {
@@ -42,8 +48,8 @@ const TextInput = <
 
   return (
     <View>
+      <Text>{label}</Text>
       <PaperTextInput
-        label={label}
         value={value}
         onChangeText={onChange}
         onBlur={onBlur}
@@ -55,13 +61,18 @@ const TextInput = <
         }
         secureTextEntry={isSecureTextEntry}
         error={invalid}
-        placeholder="Input Password"
+        placeholder={placeholder}
         placeholderTextColor="lightgray"
+        keyboardType={isNumber ? 'numeric' : undefined}
         {...rest}
       />
-      <HelperText type="error" visible={invalid}>
-        {error?.message}
-      </HelperText>
+      {invalid ? (
+        <HelperText type="error" visible={invalid}>
+          {error?.message}
+        </HelperText>
+      ) : (
+        <View style={{marginBottom: 10}} />
+      )}
     </View>
   );
 };
